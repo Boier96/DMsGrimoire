@@ -23,6 +23,8 @@ $resource = $urlParts[0] ?? '';
 $id = $urlParts[1] ?? null;
 
 header('Content-Type: application/json');
+header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
+header('Pragma: no-cache');
 
 switch ($resource) {
     case 'register':
@@ -55,6 +57,52 @@ switch ($resource) {
     case 'user':
         if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             $authController->getUser();
+        } else {
+            http_response_code(405);
+            echo json_encode(['message' => 'Method not allowed']);
+        }
+        break;
+
+    case 'course':
+        require_once __DIR__ . '/controllers/CourseController.php';
+        $courseCtrl = new CourseController($pdo);
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+            $courseCtrl->getCourse();
+        }
+        break;
+
+    case 'visit':
+    require_once __DIR__.'/controllers/CourseController.php';
+    $courseCtrl = new CourseController($pdo);
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') $courseCtrl->visit();
+    else { http_response_code(405); echo json_encode(['message'=>'Method not allowed']); }
+    break;
+
+    case 'toggle-complete':
+        require_once __DIR__ . '/controllers/CourseController.php';
+        $courseCtrl = new CourseController($pdo);
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $courseCtrl->toggleComplete();
+        } else {
+            http_response_code(405);
+            echo json_encode(['message' => 'Method not allowed']);
+        }
+        break;
+
+    case 'statuses':
+        require_once __DIR__.'/controllers/CourseController.php';
+        $courseCtrl = new CourseController($pdo);
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') $courseCtrl->getStatuses();
+        else { http_response_code(405); echo json_encode(['message'=>'Method not allowed']); }
+        break;
+
+    case 'progress':
+        require_once __DIR__ . '/controllers/CourseController.php';
+        $courseCtrl = new CourseController($pdo);
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+            $courseCtrl->getProgress();
+        } elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $courseCtrl->updateProgress();
         } else {
             http_response_code(405);
             echo json_encode(['message' => 'Method not allowed']);
