@@ -22,7 +22,7 @@ export default function LoginPage() {
 
   return (
     <div>
-      <h2>Logga in</h2>
+      <h2>Login</h2>
       <form onSubmit={handleSubmit}>
         <input
           type="text"
