@@ -6,7 +6,7 @@ export default defineConfig({
   plugins: [react(), tailwindcss()],
   server: {
     proxy: {
-      '/api': 'http://localhost:80'  // eller din PHP-serverport
+      '/api': 'http://dm-grimoire.local' 
     }
   }
 })
