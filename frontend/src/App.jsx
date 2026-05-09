@@ -9,10 +9,14 @@ import ProtectedRoute from './components/ProtectedRoute';
 import Layout from './components/Layout';
 import ChapterPage from './pages/ChapterPage';
 import PartPage from './pages/PartPage';
+import { CampaignProvider } from './context/CampaignContext';
+import CampaignsListPage from './pages/CampaignsListPage';
+import CampaignDetailPage from './pages/CampaignDetailPage';
+import ArticleEditorPage from './pages/ArticleEditorPage';
 
 function HomeRouter() {
   const { user, loading } = useAuth();
-  if (loading) return <div className="min-h-screen bg-gray-900 flex items-center justify-center text-white">Loading...</div>;
+  if (loading) return <div className="min-h-screen bg-gray-900 flex items-center justify-center text-white">lödder...</div>;
   return user ? <Navigate to="/dashboard" replace /> : <LandingPage />;
 }
 
@@ -21,25 +25,31 @@ function App() {
     <BrowserRouter>
       <AuthProvider>
         <CourseProvider>
-          <Routes>
-            <Route path="/" element={<HomeRouter />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/register" element={<RegisterPage />} />
+          <CampaignProvider> 
+            <Routes>
+              <Route path="/" element={<HomeRouter />} />
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/register" element={<RegisterPage />} />
 
-            <Route
-              element={
-                <ProtectedRoute>
-                  <Layout />
-                </ProtectedRoute>
-              }
-            >
-              <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/course/:chapterSlug" element={<ChapterPage />} />
-              <Route path="/course/:chapterSlug/:partSlug" element={<PartPage />} />
-            </Route>
+              <Route
+                element={
+                  <ProtectedRoute>
+                    <Layout />
+                  </ProtectedRoute>
+                }
+              >
+                <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/course/:chapterSlug" element={<ChapterPage />} />
+                <Route path="/course/:chapterSlug/:partSlug" element={<PartPage />} />
 
-            <Route path="*" element={<Navigate to="/" replace />} />
-          </Routes>
+                <Route path="/campaigns" element={<CampaignsListPage />} />
+                <Route path="/campaigns/:campaignId" element={<CampaignDetailPage />} />
+                <Route path="/articles/:articleId" element={<ArticleEditorPage />} />
+              </Route>
+
+              <Route path="*" element={<Navigate to="/" replace />} />
+            </Routes>
+          </CampaignProvider>
         </CourseProvider>
       </AuthProvider>
     </BrowserRouter>
