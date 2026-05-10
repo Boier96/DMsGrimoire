@@ -13,6 +13,8 @@ import { CampaignProvider } from './context/CampaignContext';
 import CampaignsListPage from './pages/CampaignsListPage';
 import CampaignDetailPage from './pages/CampaignDetailPage';
 import ArticleEditorPage from './pages/ArticleEditorPage';
+import CharacterSheetList from './pages/CharacterSheetList';
+import CharacterSheetDetail from './pages/CharacterSheetDetail';
 
 function HomeRouter() {
   const { user, loading } = useAuth();
@@ -45,6 +47,9 @@ function App() {
                 <Route path="/campaigns" element={<CampaignsListPage />} />
                 <Route path="/campaigns/:campaignId" element={<CampaignDetailPage />} />
                 <Route path="/articles/:articleId" element={<ArticleEditorPage />} />
+                <Route path="/character-sheets" element={<CharacterSheetList />} />
+                <Route path="/character-sheets/:sheetId" element={<CharacterSheetDetail />} />
+
               </Route>
 
               <Route path="*" element={<Navigate to="/" replace />} />

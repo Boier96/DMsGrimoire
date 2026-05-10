@@ -94,8 +94,13 @@ export default function Dashboard() {
 			</DashboardCard>
 
 			<DashboardCard title="Character Sheets">
-				<p className="text-muted">No character sheets yet. Create one to get started.</p>
-			</DashboardCard>
+        <button
+          onClick={() => navigate('/character-sheets')}
+          className="new-campaign-link"
+        >
+          View & Create Sheets
+        </button>
+      </DashboardCard>
 
 			<DashboardCard title="Quick Stats">
 				<p>2 courses completed</p>

@@ -292,6 +292,18 @@ function Sidebar() {
 							</li>
 						</ul>
 					</div>
+                    
+                    <div className="sidebar__section">
+                        <h4 className="sidebar__heading">Character Sheets</h4>
+                        <ul className="sidebar__list">
+                            <li
+                                className="sidebar__item--main"
+                                onClick={() => navigate('/character-sheets')}
+                            >
+                                View Sheets
+                            </li>
+                        </ul>
+                    </div>
 
 					<div className="sidebar__spacer" />
 

@@ -732,7 +732,7 @@ li > .flex {
 }
 
 .last-course-play-overlay {
-	@apply absolute inset-0 flex items-center justify-center bg-black bg-opacity-40;
+	@apply absolute inset-0 flex items-center justify-center bg-black/40;
 }
 
 .last-course-play-icon {
@@ -744,9 +744,65 @@ li > .flex {
 }
 
 .last-course-badge {
-	@apply absolute bottom-2 right-2 bg-black bg-opacity-60 text-white text-xs px-2 py-1 rounded;
+	@apply absolute bottom-2 right-2 bg-black/60 text-white text-xs px-2 py-1 rounded;
 }
 
 .last-course-excerpt {
 	@apply text-sm text-gray-700 mt-1;
+}
+
+.character-sheets-page {
+	@apply p-6;
+}
+
+.character-list-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 1rem;
+}
+
+.sheet-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+	gap: 1rem;
+}
+
+.sheet-card {
+	border: 1px solid var(--border-color);
+	border-radius: 4px;
+	padding: 1rem;
+	background: var(--card-bg);
+}
+
+.sheet-card-link h3 {
+	margin: 0;
+	color: var(--link-color);
+	cursor: pointer;
+	font-size: 1.1rem;
+}
+
+.sheet-card-actions {
+	display: flex;
+	gap: 0.5rem;
+	margin-top: 0.5rem;
+}
+
+.character-sheet-detail {
+	padding: 1.5rem;
+}
+
+.character-sheet-toolbar {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 0.5rem;
+}
+
+.character-sheet-iframe {
+	width: 100%;
+	height: calc(100vh - 150px);
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	background: white;
 }
