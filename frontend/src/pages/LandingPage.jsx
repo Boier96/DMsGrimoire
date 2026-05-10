@@ -44,7 +44,7 @@ export default function LandingPage() {
   return (
     <div className="landing-page">
       <header className="landing-header">
-        <h1 className="landing-header-title">The DM’s Griiremo</h1>
+        <h1 className="landing-header-title">The DM’s Grimoire</h1>
         <nav>
           <Link to="/login" className="landing-nav-link">
             Log In
