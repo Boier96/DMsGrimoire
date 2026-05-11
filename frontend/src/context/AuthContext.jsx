@@ -47,7 +47,6 @@ export function AuthProvider({ children }) {
             throw new Error(err.message || 'Registration failed');
         }
         const data = await res.json();
-        // After register, get full user
         const userRes = await fetch('/api/user');
         const userData = await userRes.json();
         setUser(userData);
