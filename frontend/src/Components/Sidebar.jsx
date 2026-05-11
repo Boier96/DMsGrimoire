@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { useNavigate, useLocation, useParams } from 'react-router-dom';
+import { useNavigate, useLocation, useParams, Link } from 'react-router-dom';
 import { useCourse } from '../context/CourseContext';
 import { useAuth } from '../context/AuthContext';
 import { useCampaigns } from '../context/CampaignContext';
@@ -304,6 +304,12 @@ function Sidebar() {
                             </li>
                         </ul>
                     </div>
+                    
+                    {user?.role === 'admin' && (
+                        <li className="sidebar__item--main">
+                            <Link to="/admin">Admin Panel</Link>
+                        </li>
+                    )}
 
 					<div className="sidebar__spacer" />
 

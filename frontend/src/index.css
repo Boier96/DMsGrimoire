@@ -1030,3 +1030,130 @@ li > .flex {
 .auth-switch-link:hover {
 	color: #c4b5fd;
 }
+
+.admin-page {
+	padding: 2rem;
+}
+
+.admin-page__title {
+	font-size: 2rem;
+	font-weight: 800;
+	margin-bottom: 1.5rem;
+	color: var(--text-primary);
+}
+
+.admin-section {
+	margin-bottom: 2rem;
+}
+
+.admin-section__heading {
+	font-size: 1.25rem;
+	font-weight: 600;
+	margin-bottom: 1rem;
+	color: var(--accent-light);
+}
+
+.admin-user-card {
+	background-color: var(--bg-surface);
+	border: 1px solid var(--border-mid);
+	border-radius: var(--radius-md);
+	padding: 1rem;
+	margin-bottom: 0.75rem;
+	transition: border-color 0.2s;
+}
+.admin-user-card:hover {
+	border-color: var(--border-bright);
+}
+
+.admin-user-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.admin-user-toggle {
+	background: none;
+	border: none;
+	color: var(--text-primary);
+	font-size: 1rem;
+	font-weight: 600;
+	cursor: pointer;
+	text-align: left;
+}
+.admin-user-toggle:hover {
+	color: var(--accent-light);
+}
+
+.admin-delete-btn {
+	background: var(--danger);
+	color: white;
+	border: none;
+	border-radius: var(--radius-sm);
+	padding: 0.25rem 0.6rem;
+	font-size: 0.75rem;
+	cursor: pointer;
+	transition: background 0.2s;
+	margin-left: 0.5rem;
+}
+.admin-delete-btn:hover {
+	background: var(--danger-hover);
+}
+
+.admin-user-detail {
+	margin-top: 1rem;
+	padding-top: 1rem;
+	border-top: 1px solid var(--border-dim);
+	color: var(--text-secondary);
+}
+
+.admin-user-detail h3 {
+	margin-top: 1rem;
+	font-size: 0.9rem;
+	color: var(--text-primary);
+	border-bottom: 1px solid var(--border-dim);
+	padding-bottom: 0.2rem;
+}
+
+.admin-sub-item,
+.admin-sub-sub-item {
+	display: flex;
+	align-items: center;
+	margin-bottom: 0.3rem;
+	font-size: 0.85rem;
+	color: var(--text-secondary);
+}
+.admin-sub-item > span,
+.admin-sub-sub-item > span {
+	flex: 1;
+}
+.admin-sub-sub-item {
+	margin-left: 1rem;
+}
+
+.admin-inline-form {
+	margin: 0.5rem 0;
+	display: flex;
+	gap: 0.5rem;
+	align-items: center;
+}
+.admin-inline-form input,
+.admin-inline-form select {
+	background-color: var(--bg-surface-2);
+	border: 1px solid var(--border-mid);
+	border-radius: var(--radius-sm);
+	padding: 0.3rem 0.5rem;
+	color: var(--text-primary);
+	font-size: 0.8rem;
+}
+.admin-inline-form button {
+	background-color: var(--accent);
+	color: white;
+	border: none;
+	border-radius: var(--radius-sm);
+	padding: 0.3rem 0.7rem;
+	font-size: 0.8rem;
+	cursor: pointer;
+}
+.admin-inline-form button:hover {
+	background-color: var(--accent-hover);
+}

@@ -9,11 +9,11 @@ class User {
     public function findByUsername($username) {
         $stmt = $this->db->prepare('SELECT * FROM users WHERE username = :username');
         $stmt->execute(['username' => $username]);
-        return $stmt->fetch(); 
+        return $stmt->fetch();
     }
 
     public function findById($id) {
-        $stmt = $this->db->prepare('SELECT id, username, created_at FROM users WHERE id = :id');
+        $stmt = $this->db->prepare('SELECT * FROM users WHERE id = :id');
         $stmt->execute(['id' => $id]);
         return $stmt->fetch();
     }

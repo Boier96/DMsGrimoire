@@ -266,6 +266,75 @@ switch ($resource) {
             else { http_response_code(405); echo json_encode(['message'=>'Method not allowed']); }
         }
         break;
+            
+    case 'stats':
+        require_once __DIR__ . '/controllers/StatsController.php';
+        $statsCtrl = new StatsController($pdo);
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+            $statsCtrl->getStats();
+        } else {
+            http_response_code(405);
+            echo json_encode(['message' => 'Method not allowed']);
+        }
+        break;
+
+    case 'admin':
+        require_once __DIR__ . '/controllers/AdminController.php';
+        $adminCtrl = new AdminController($pdo);
+
+        $adminAction = $urlParts[1] ?? '';
+        $adminId = $urlParts[2] ?? null;
+
+        if ($adminAction === 'users') {
+            if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+                $adminCtrl->listUsers();
+            } elseif ($_SERVER['REQUEST_METHOD'] === 'DELETE' && $adminId) {
+                $adminCtrl->deleteUser($adminId);
+            } else {
+                http_response_code(405);
+                echo json_encode(['message'=>'Method not allowed']);
+            }
+        } elseif ($adminAction === 'campaigns') {
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                $adminCtrl->createCampaign();
+            } elseif ($_SERVER['REQUEST_METHOD'] === 'DELETE' && $adminId) {
+                $adminCtrl->deleteCampaign($adminId);
+            } else {
+                http_response_code(405);
+                echo json_encode(['message'=>'Method not allowed']);
+            }
+        } elseif ($adminAction === 'folders') {
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                $adminCtrl->createFolder();
+            } elseif ($_SERVER['REQUEST_METHOD'] === 'DELETE' && $adminId) {
+                $adminCtrl->deleteFolder($adminId);
+            } else {
+                http_response_code(405);
+                echo json_encode(['message'=>'Method not allowed']);
+            }
+        } elseif ($adminAction === 'articles') {
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                $adminCtrl->createArticle();
+            } elseif ($_SERVER['REQUEST_METHOD'] === 'DELETE' && $adminId) {
+                $adminCtrl->deleteArticle($adminId);
+            } else {
+                http_response_code(405);
+                echo json_encode(['message'=>'Method not allowed']);
+            }
+        } elseif ($adminAction === 'sections') {
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                $adminCtrl->addSection();
+            } elseif ($_SERVER['REQUEST_METHOD'] === 'DELETE' && $adminId) {
+                $adminCtrl->deleteSection($adminId);
+            } else {
+                http_response_code(405);
+                echo json_encode(['message'=>'Method not allowed']);
+            }
+        } else {
+            http_response_code(404);
+            echo json_encode(['message'=>'Admin route not found']);
+        }
+        break;
 
     default:
         http_response_code(404);

@@ -6,28 +6,28 @@ import DashboardCard from '../components/DashboardCard';
 import LastCourseCard from '../components/LastCourseCard';
 
 function LastArticleCard({ articleId }) {
-	const navigate = useNavigate();
-	const [article, setArticle] = useState(null);
+    const navigate = useNavigate();
+    const [article, setArticle] = useState(null);
 
-	useEffect(() => {
-		if (!articleId) return;
-		fetch(`/api/articles/${articleId}`)
-			.then(res => res.json())
-			.then(data => setArticle(data))
-			.catch(console.error);
-	}, [articleId]);
+    useEffect(() => {
+      if (!articleId) return;
+      fetch(`/api/articles/${articleId}`)
+        .then(res => res.json())
+        .then(data => setArticle(data))
+        .catch(console.error);
+    }, [articleId]);
 
-	if (!articleId || !article) {
-		return (
-			<DashboardCard title="Last Article">
-				<p className="text-muted">No articles visited yet, open a campaign article to see it here dawg.</p>
-			</DashboardCard>
-		);
-	}
+    if (!articleId || !article) {
+      return (
+        <DashboardCard title="Last Article">
+          <p className="text-muted">No articles visited yet, open a campaign article to see it here dawg.</p>
+        </DashboardCard>
+      );
+    }
 
-	const excerpt = article.primary_content
-		? article.primary_content.replace(/<[^>]*>/g, '').substring(0, 200) + '...'
-		: 'No content yet.';
+    const excerpt = article.primary_content
+      ? article.primary_content.replace(/<[^>]*>/g, '').substring(0, 200) + '...'
+      : 'No content yet.';
 
 	return (
 		<DashboardCard title="Last Article">
@@ -43,69 +43,86 @@ function LastArticleCard({ articleId }) {
 }
 
 export default function Dashboard() {
-	const { lastVisitedItem } = useCourse();
-	const { campaigns, lastArticleId, lastCampaignId } = useCampaigns();
-	const navigate = useNavigate();
+    const { lastVisitedItem } = useCourse();
+    const { campaigns, lastArticleId, lastCampaignId } = useCampaigns();
+    const navigate = useNavigate();
+    const [stats, setStats] = useState(null);
 
-	const currentCampaign = useMemo(() => {
-		if (!campaigns.length) return null;
-		if (lastCampaignId) {
-			return campaigns.find(c => c.id === lastCampaignId) || campaigns[0];
-		}
-		return campaigns[0];
-	}, [campaigns, lastCampaignId]);
+    useEffect(() => { 
+      fetch('/api/stats')
+        .then(res => res.json())
+        .then(data => setStats(data))
+        .catch(err => console.error('Failed to fetch stats', err));
+    }, []);
 
-	return (
-		<div className="cards-grid">
-			<LastCourseCard lastVisitedItem={lastVisitedItem} />
+    const currentCampaign = useMemo(() => {
+      if (!campaigns.length) return null;
+      if (lastCampaignId) {
+        return campaigns.find(c => c.id === lastCampaignId) || campaigns[0];
+      }
+      return campaigns[0];
+    }, [campaigns, lastCampaignId]);
 
-			<LastArticleCard articleId={lastArticleId} />
+	  return (
+		  <div className="cards-grid">
+        <LastCourseCard lastVisitedItem={lastVisitedItem} />
 
-			<DashboardCard title="Current Campaign">
-				{currentCampaign ? (
-					<>
-						<h3
-							onClick={() => navigate(`/campaigns/${currentCampaign.id}`)}
-							className="campaign-name-link"
-						>
-							{currentCampaign.name}
-						</h3>
-						<button
-							onClick={() => navigate('/campaigns')}
-							className="new-campaign-link"
-						>
-							+ New
-						</button>
-						<p className="campaign-updated-text">
-							Last updated: {new Date(currentCampaign.updated_at).toLocaleDateString()}
-						</p>
-					</>
-				) : (
-					<div>
-						<p className="text-muted">No campaigns yet.</p>
-						<button
-							onClick={() => navigate('/campaigns')}
-							className="create-campaign-btn"
-						>
-							Create Campaign
-						</button>
-					</div>
-				)}
-			</DashboardCard>
+        <LastArticleCard articleId={lastArticleId} />
 
-			<DashboardCard title="Character Sheets">
-        <button
-          onClick={() => navigate('/character-sheets')}
-          className="new-campaign-link"
-        >
-          View & Create Sheets
-        </button>
-      </DashboardCard>
+        <DashboardCard title="Current Campaign">
+          {currentCampaign ? (
+            <>
+              <h3
+                onClick={() => navigate(`/campaigns/${currentCampaign.id}`)}
+                className="campaign-name-link"
+              >
+                {currentCampaign.name}
+              </h3>
+              <button
+                onClick={() => navigate('/campaigns')}
+                className="new-campaign-link"
+              >
+                + New
+              </button>
+              <p className="campaign-updated-text">
+                Last updated: {new Date(currentCampaign.updated_at).toLocaleDateString()}
+              </p>
+            </>
+          ) : (
+            <div>
+              <p className="text-muted">No campaigns yet.</p>
+              <button
+                onClick={() => navigate('/campaigns')}
+                className="create-campaign-btn"
+              >
+                Create Campaign
+              </button>
+            </div>
+          )}
+        </DashboardCard>
 
-			<DashboardCard title="Quick Stats">
-				<p>2 courses completed</p>
-				<p>1 campaign in progress</p>
-			</DashboardCard>
-		</div>
-	);
+        <DashboardCard title="Character Sheets">
+          <button
+            onClick={() => navigate('/character-sheets')}
+            className="new-campaign-link"
+          >
+            View & Create Sheets
+          </button>
+        </DashboardCard>
+
+        <DashboardCard title="Your Stats">
+          {stats ? (
+            <>
+              <p>Chapters completed: {stats.chapters_completed}</p>
+              <p>Parts completed: {stats.parts_completed}</p>
+              <p>Articles written: {stats.articles_count}</p>
+              <p>Total words: {stats.total_words}</p>
+              <p>Character sheets: {stats.character_sheets_count}</p>
+            </>
+          ) : (
+            <p className="text-muted">Loading stats…</p>
+          )}
+        </DashboardCard>
+      </div>
+  );
 }
