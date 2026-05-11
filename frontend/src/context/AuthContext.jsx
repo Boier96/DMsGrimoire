@@ -21,23 +21,20 @@ export function AuthProvider({ children }) {
             .finally(() => setLoading(false));
     }, []);
 
-    const login = useCallback(async (username, password) => {
-        const res = await fetch('/api/login', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ username, password }),
-        });
-        if (!res.ok) {
-            const err = await res.json();
-            throw new Error(err.message || 'Login failed');
-        }
-        const data = await res.json();
-        // After login, re-fetch user to get full data including role
-        const userRes = await fetch('/api/user');
-        const userData = await userRes.json();
-        setUser(userData);
-        return data;
-    }, []);
+    const login = async (username, password) => {
+      const res = await fetch('/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password }),
+      });
+      if (!res.ok) {
+        const err = await res.json();
+        throw new Error(err.message || 'Login failed');
+      }
+      const userData = await res.json();
+      setUser(userData);
+      return userData;
+    };
 
     const register = useCallback(async (username, password) => {
         const res = await fetch('/api/register', {
