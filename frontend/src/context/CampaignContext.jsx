@@ -40,7 +40,6 @@ useEffect(() => {
     .catch(console.error);
 }, [user]);
 
-  // -------- Set last article (persists to server) --------
   const setLastArticleId = useCallback(async (id) => {
     setLastArticleIdState(id);
     try {
@@ -67,7 +66,6 @@ useEffect(() => {
   }
 }, []);
 
-  // -------- Campaign CRUD --------
   const createCampaign = useCallback(async (name) => {
     const res = await fetch('/api/campaigns', {
       method: 'POST',

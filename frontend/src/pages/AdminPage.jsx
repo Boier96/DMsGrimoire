@@ -135,7 +135,7 @@ export default function AdminPage() {
 									setExpandedUserId(expandedUserId === u.id ? null : u.id)
 								}
 							>
-								{expandedUserId === u.id ? '▼' : '▶'} {u.username}{' '}
+								{expandedUserId === u.id ? '▸' : '▾'} {u.username}{' '}
 								{u.role === 'admin' ? '(admin)' : ''}
 							</button>
 							<button
@@ -173,23 +173,9 @@ export default function AdminPage() {
 									className="admin-inline-form"
 								>
 									<input
-										type="hidden"
-										value={u.id}
-										onChange={(e) =>
-											setNewCampaign((prev) => ({
-												...prev,
-												user_id: e.target.value,
-											}))
-										}
-									/>
-									<input
 										type="text"
 										placeholder="Campaign name"
-										value={
-											newCampaign.user_id === u.id.toString()
-												? newCampaign.name
-												: ''
-										}
+										value={newCampaign.user_id === u.id ? newCampaign.name : ''}
 										onChange={(e) =>
 											setNewCampaign({
 												user_id: u.id,
@@ -206,7 +192,7 @@ export default function AdminPage() {
 									<div key={f.id} className="admin-folder">
 										<div className="admin-sub-item">
 											<span>
-												📁 {f.name} (ID: {f.id}) – Campaign: {f.campaign_name}
+												{f.name} (ID: {f.id}) – Campaign: {f.campaign_name}
 											</span>
 											<button
 												onClick={() => handleDeleteFolder(f.id)}
@@ -218,7 +204,7 @@ export default function AdminPage() {
 										{f.articles.map((a) => (
 											<div key={a.id} className="admin-sub-sub-item">
 												<span>
-													📄 {a.title} (ID: {a.id})
+													{a.title} (ID: {a.id})
 												</span>
 												<button
 													onClick={() => handleDeleteArticle(a.id)}
@@ -243,20 +229,10 @@ export default function AdminPage() {
 											className="admin-inline-form"
 										>
 											<input
-												type="hidden"
-												value={f.id}
-												onChange={(e) =>
-													setNewArticle((prev) => ({
-														...prev,
-														folder_id: e.target.value,
-													}))
-												}
-											/>
-											<input
 												type="text"
 												placeholder="Article title"
 												value={
-													newArticle.folder_id === f.id.toString()
+													newArticle.folder_id === f.id
 														? newArticle.title
 														: ''
 												}
@@ -267,6 +243,7 @@ export default function AdminPage() {
 													})
 												}
 											/>
+
 											<button type="submit">Add Article</button>
 										</form>
 									</div>

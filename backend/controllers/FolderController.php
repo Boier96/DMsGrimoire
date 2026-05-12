@@ -13,7 +13,6 @@ class FolderController {
     public function listForCampaign($campaignId) {
         $userId = $this->getUserId();
         if (!$userId) { http_response_code(401); echo json_encode(['message'=>'Unauthorized']); return; }
-        // Verify campaign ownership
         $stmt = $this->pdo->prepare("SELECT id FROM campaigns WHERE id = ? AND user_id = ?");
         $stmt->execute([$campaignId, $userId]);
         if (!$stmt->fetch()) { http_response_code(404); echo json_encode(['message'=>'Campaign not found']); return; }
@@ -30,7 +29,6 @@ class FolderController {
         $name = trim($input['name'] ?? '');
         if (!$name) { http_response_code(400); echo json_encode(['message'=>'Folder name required']); return; }
 
-        // Check campaign ownership
         $stmt = $this->pdo->prepare("SELECT id FROM campaigns WHERE id = ? AND user_id = ?");
         $stmt->execute([$campaignId, $userId]);
         if (!$stmt->fetch()) { http_response_code(404); echo json_encode(['message'=>'Campaign not found']); return; }
@@ -50,7 +48,6 @@ class FolderController {
         $name = trim($input['name'] ?? '');
         if (!$name) { http_response_code(400); echo json_encode(['message'=>'Folder name required']); return; }
 
-        // Verify ownership via campaign
         $stmt = $this->pdo->prepare("SELECT c.user_id FROM folders f JOIN campaigns c ON f.campaign_id = c.id WHERE f.id = ?");
         $stmt->execute([$folderId]);
         $row = $stmt->fetch();

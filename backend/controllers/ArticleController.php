@@ -134,7 +134,6 @@ class ArticleController {
         $section_title = $input['section_title'] ?? null;
         $section_text = $input['section_text'] ?? null;
 
-        // Verify ownership
         $stmt = $this->pdo->prepare("SELECT a.id FROM article_sections s
             JOIN articles a ON s.article_id = a.id
             JOIN folders f ON a.folder_id = f.id
